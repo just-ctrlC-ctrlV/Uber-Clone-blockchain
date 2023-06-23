@@ -1,12 +1,13 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { UberContext } from "@/context/UberContext";
 import logo from "../assets/logo.png";
 import login from "../assets/login.png";
 import profile from "../assets/profile.jpg";
 
 const navStyle = {
-  wrapper: "w-full bg-gray-800 h-16 flex justify-between  items-center px-4",
+  wrapper: "w-full bg-black h-20 flex justify-between  items-center px-4",
   logo: "text-white text-2xl font-bold w-28 cursor-pointer",
   home: "text-white text-2xl font-bold cursor-pointer",
   rides: "text-white text-2xl font-bold cursor-pointer",
@@ -17,13 +18,21 @@ const navStyle = {
 
 function Navbar() {
   const [isLogedIn, setislogedIn] = useState(true);
+  const useUber = React.useContext(UberContext);
+
+  useEffect(() => {
+    if (useUber.currentUser) {
+      setislogedIn(true);
+    } else {
+      setislogedIn(false);
+    }
+  }, [useUber.currentUser]);
 
   return (
     <div className={navStyle.wrapper}>
       <div className={navStyle.logo}>
         <Image src={logo} alt="Logo" />
       </div>
-      <div className={navStyle.home}>Home</div>
       {isLogedIn ? (
         <>
           <div className={navStyle.rides}>Rides</div>
@@ -33,7 +42,7 @@ function Navbar() {
         </>
       ) : (
         <div className={navStyle.login}>
-          <Image src={login} alt="Login" />
+          <Image src={login} alt="Login" onClick={useUber.connectWallet} />
         </div>
       )}
     </div>
