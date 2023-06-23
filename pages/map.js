@@ -3,9 +3,6 @@ import { UberContext } from "@/context/UberContext";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useState, useContext } from "react";
 
-const accessToken =
-  "pk.eyJ1IjoibWFwLWJvaTY5IiwiYSI6ImNsYzF5OWhiNTNxZzEzcGtlZ2g4OTAxM3MifQ.CqZQLqoP6bO5UkLZoTzQhQ";
-
 const Maap = () => {
   const [markers, setmarkers] = useState([]);
   const [viewState, setViewState] = useState(false);
