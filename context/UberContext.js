@@ -22,6 +22,7 @@ export function UberProvider({ children }) {
       checkIfWalletConnected();
     }
   }, []);
+
   useEffect(() => {
     if (picklatlng[0] && droplatlng[0]) {
       const tripDuration = async (picklatlng, droplatlng) => {

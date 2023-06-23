@@ -1,46 +1,71 @@
-import { useEffect, useContext } from "react";
-import mapboxgl from "mapbox-gl";
-import { UberContext } from "../context/UberContext";
+import Map, { Marker, NavigationControl } from "react-map-gl";
+import { UberContext } from "@/context/UberContext";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { useEffect, useState, useContext } from "react";
 
-const style = {
-  wrapper: `flex-1 h-full w-full`,
-};
+const accessToken =
+  "pk.eyJ1IjoibWFwLWJvaTY5IiwiYSI6ImNsYzF5OWhiNTNxZzEzcGtlZ2g4OTAxM3MifQ.CqZQLqoP6bO5UkLZoTzQhQ";
 
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+const Maap = () => {
+  const [markers, setmarkers] = useState([]);
+  const [viewState, setViewState] = useState(false);
 
-const Map = () => {
   const { picklatlng, droplatlng } = useContext(UberContext);
-
   useEffect(() => {
-    const map = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/drakosi/ckvcwq3rwdw4314o3i2ho8tph",
-      center: [-99.29011, 39.39172],
-      zoom: 3,
-    });
-
-    if (picklatlng) {
-      addToMap(map, picklatlng);
+    if (picklatlng[0] && droplatlng[0]) {
+      setmarkers([]);
+      setmarkers([
+        {
+          id: 1,
+          latitude: picklatlng[1],
+          longitude: picklatlng[0],
+        },
+        {
+          id: 2,
+          latitude: droplatlng[1],
+          longitude: droplatlng[0],
+        },
+      ]);
+      setViewState(true);
     }
-
-    if (droplatlng) {
-      addToMap(map, droplatlng);
-    }
-
-    // if (picklatlng && droplatlng) {
-    //   map.fitBounds([droplatlng, picklatlng], {
-    //     padding: 400,
-    //   });
-    // }
   }, [picklatlng, droplatlng]);
 
-  const addToMap = (map, coordinates) => {
-    const marker1 = new mapboxgl.Marker()
-      .setLngLat({ lat: 0, lng: 0 })
-      .addTo(map);
-  };
-
-  return <div className={style.wrapper} id="map" />;
+  return (
+    <Map
+      mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+      interactive={true}
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
+      maxZoom={17}
+      minZoom={1.2}
+      initialViewState={{
+        latitude: 0,
+        longitude: 0,
+        zoom: 5,
+      }}
+      viewState={
+        viewState && {
+          latitude: (markers[0]?.latitude + markers[1]?.latitude) / 2,
+          longitude: (markers[0]?.longitude + markers[1]?.longitude) / 2,
+          zoom: 8,
+          padding: 400,
+        }
+      }
+      onMoveStart={() => setViewState(false)}
+      mapStyle="mapbox://styles/drakosi/ckvcwq3rwdw4314o3i2ho8tph">
+      {markers?.map((marker) => {
+        return (
+          <Marker
+            key={marker.id}
+            latitude={marker.latitude}
+            longitude={marker.longitude}></Marker>
+        );
+      })}
+      <NavigationControl />
+    </Map>
+  );
 };
 
-export default Map;
+export default Maap;

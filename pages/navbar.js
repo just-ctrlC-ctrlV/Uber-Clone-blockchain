@@ -10,14 +10,15 @@ const navStyle = {
   wrapper: "w-full bg-black h-20 flex justify-between  items-center px-4",
   logo: "text-white text-2xl font-bold w-28 cursor-pointer",
   home: "text-white text-2xl font-bold cursor-pointer",
-  rides: "text-white text-2xl font-bold cursor-pointer",
+  rides: "text-white text-l font-medium cursor-pointer",
   login: "text-white text-2xl font-bold w-12  cursor-pointer",
+  address: "text-white text-xs font-medium text-green-200   cursor-pointer",
   profile:
-    "text-white text-2xl font-bold w-14 h-14 rounded-full overflow-hidden border-2 border-white cursor-pointer",
+    "text-white text-2xl font-bold w-14 h-14 rounded-full overflow-hidden  cursor-pointer",
 };
 
 function Navbar() {
-  const [isLogedIn, setislogedIn] = useState(true);
+  const [isLogedIn, setislogedIn] = useState(false);
   const useUber = React.useContext(UberContext);
 
   useEffect(() => {
@@ -27,19 +28,25 @@ function Navbar() {
       setislogedIn(false);
     }
   }, [useUber.currentUser]);
-
+  const address =
+    useUber.currentUser?.toString().slice(0, 6) +
+    "..." +
+    useUber.currentUser?.toString().slice(-4);
   return (
     <div className={navStyle.wrapper}>
       <div className={navStyle.logo}>
         <Image src={logo} alt="Logo" />
       </div>
       {isLogedIn ? (
-        <>
-          <div className={navStyle.rides}>Rides</div>
-          <div className={navStyle.profile}>
-            <Image src={profile} alt="profile pic" />
+        <div className="w-1/4 flex justify-between items-center px-6">
+          <div className={navStyle.rides}>Your rides</div>
+          <div className="flex items-center ">
+            <div className={navStyle.profile}>
+              <Image src={profile} alt="profile pic" />
+            </div>
+            <div className={navStyle.address}>{address}</div>
           </div>
-        </>
+        </div>
       ) : (
         <div className={navStyle.login}>
           <Image src={login} alt="Login" onClick={useUber.connectWallet} />

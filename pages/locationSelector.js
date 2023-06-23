@@ -7,7 +7,7 @@ import { chargeUser } from "./api/payment.js";
 
 const style = {
   wrapper:
-    "w-80 h-104 flex flex-col gap-2 top-16 left-10  bg-white rounded-md absolute items-center py-4",
+    "w-80 h-104 flex flex-col gap-2 top-32 left-10  bg-white rounded-md absolute items-center py-4",
 };
 
 function LocationSelector() {

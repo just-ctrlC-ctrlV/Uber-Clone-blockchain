@@ -4,8 +4,8 @@ import Map from "./map.js";
 import LocationSelector from "./locationSelector.js";
 
 const style = {
-  wrapper: "w-screen h-screen flex flex-col ",
-  main: "w-screen  h-full flex-1 z-10 ",
+  wrapper: "w-screen h-screen flex flex-col relative ",
+  main: "w-full h-full flex flex-col items-center justify-center overflow-hidden",
 };
 
 export default function Home() {
