@@ -63,7 +63,15 @@ function LocationSelector() {
       </div>
 
       <button
-        className="w-4/5 bg-black hover: text-white font-bold py-2 px-4 rounded-md "
+        className={
+          "w-4/5 bg-black hover: text-white font-bold py-2 px-4 rounded-md " +
+          (pickUpPoint.length === 0 ||
+          dropPoint.length === 0 ||
+          !useUber?.selectedRide?.name ||
+          !isLogedIn
+            ? "bg-gray-400 cursor-not-allowed"
+            : "")
+        }
         onClick={() => {
           chargeUser({
             amount: useUber?.tripCost,
