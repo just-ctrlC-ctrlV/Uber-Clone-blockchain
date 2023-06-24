@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { UberContext } from "../context/UberContext";
 import Rides from "./rides";
 import { chargeUser } from "./api/payment.js";
@@ -19,17 +18,17 @@ function LocationSelector() {
   const useUber = useContext(UberContext);
 
   useEffect(() => {
-    if (useUber.currentUser) {
+    if (useUber?.currentUser) {
       setislogedIn(true);
     } else {
       setislogedIn(false);
     }
-  }, [useUber.currentUser]);
+  }, [useUber?.currentUser]);
 
   const onfousShift = () => {
-    if (pickUpPoint.length !== 0) useUber.Geocoder("pick", pickUpPoint);
-    if (dropPoint.length !== 0) useUber.Geocoder("drop", dropPoint);
-    console.log(useUber.picklatlng, useUber.droplatlng);
+    if (pickUpPoint.length !== 0) useUber?.Geocoder("pick", pickUpPoint);
+    if (dropPoint.length !== 0) useUber?.Geocoder("drop", dropPoint);
+    console.log(useUber?.picklatlng, useUber?.droplatlng);
   };
 
   return (
@@ -67,16 +66,16 @@ function LocationSelector() {
         className="w-4/5 bg-black hover: text-white font-bold py-2 px-4 rounded-md "
         onClick={() => {
           chargeUser({
-            amount: useUber.tripCost,
-            currentUserAddress: useUber.currentUser,
-            metamask: useUber.metamask,
+            amount: useUber?.tripCost,
+            currentUserAddress: useUber?.currentUser,
+            metamask: useUber?.metamask,
           });
         }}
         disabled={
           pickUpPoint.length === 0 ||
           dropPoint.length === 0 ||
           !isLogedIn ||
-          !useUber.selectedRide.name
+          !useUber?.selectedRide?.name
         }>
         Confirm
       </button>

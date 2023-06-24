@@ -7,25 +7,25 @@ const Maap = () => {
   const [markers, setmarkers] = useState([]);
   const [viewState, setViewState] = useState(false);
 
-  const { picklatlng, droplatlng } = useContext(UberContext);
+  const useUber = useContext(UberContext);
   useEffect(() => {
-    if (picklatlng[0] && droplatlng[0]) {
+    if (useUber?.picklatlng[0] && useUber?.droplatlng[0]) {
       setmarkers([]);
       setmarkers([
         {
           id: 1,
-          latitude: picklatlng[1],
-          longitude: picklatlng[0],
+          latitude: useUber?.picklatlng[1],
+          longitude: useUber?.picklatlng[0],
         },
         {
           id: 2,
-          latitude: droplatlng[1],
-          longitude: droplatlng[0],
+          latitude: useUber?.droplatlng[1],
+          longitude: useUber?.droplatlng[0],
         },
       ]);
       setViewState(true);
     }
-  }, [picklatlng, droplatlng]);
+  }, [useUber?.picklatlng, useUber?.droplatlng]);
 
   return (
     <Map
@@ -55,9 +55,9 @@ const Maap = () => {
       {markers?.map((marker) => {
         return (
           <Marker
-            key={marker.id}
-            latitude={marker.latitude}
-            longitude={marker.longitude}></Marker>
+            key={marker?.id}
+            latitude={marker?.latitude}
+            longitude={marker?.longitude}></Marker>
         );
       })}
       <NavigationControl />

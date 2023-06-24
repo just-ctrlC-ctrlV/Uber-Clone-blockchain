@@ -47,13 +47,15 @@ const formula = (pricefac, tripDuration) => {
 
 const Rides = () => {
   const [rideon, setrideon] = useState(-1);
-  const { tripDuration, setTripCost, setSelectedRide } =
-    useContext(UberContext);
+
+  const useUber = useContext(UberContext);
 
   useEffect(() => {
     if (rideon !== -1) {
-      setTripCost(formula(rides[rideon].pricefac, tripDuration));
-      setSelectedRide(rides[rideon]);
+      useUber?.setTripCost(
+        formula(rides[rideon].pricefac, useUber?.tripDuration)
+      );
+      useUber?.setSelectedRide(rides[rideon]);
     }
   }, [rideon]);
   return (
@@ -82,7 +84,7 @@ const Rides = () => {
           </div>
           <div className=" flex flex-col items-center">
             <h2 className="text-m text-black font-semibold flex items-center">
-              {formula(ride.pricefac, tripDuration).toFixed(4)}
+              {formula(ride.pricefac, useUber?.tripDuration).toFixed(4)}
               <Image src={eth} className="w-8" alt="eth" />
             </h2>
           </div>

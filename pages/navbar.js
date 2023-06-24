@@ -22,16 +22,16 @@ function Navbar() {
   const useUber = React.useContext(UberContext);
 
   useEffect(() => {
-    if (useUber.currentUser) {
+    if (useUber?.currentUser) {
       setislogedIn(true);
     } else {
       setislogedIn(false);
     }
-  }, [useUber.currentUser]);
+  }, [useUber?.currentUser]);
   const address =
-    useUber.currentUser?.toString().slice(0, 6) +
+    useUber?.currentUser?.toString().slice(0, 6) +
     "..." +
-    useUber.currentUser?.toString().slice(-4);
+    useUber?.currentUser?.toString().slice(-4);
   return (
     <div className={navStyle.wrapper}>
       <div className={navStyle.logo}>
@@ -49,7 +49,7 @@ function Navbar() {
         </div>
       ) : (
         <div className={navStyle.login}>
-          <Image src={login} alt="Login" onClick={useUber.connectWallet} />
+          <Image src={login} alt="Login" onClick={useUber?.connectWallet} />
         </div>
       )}
     </div>
