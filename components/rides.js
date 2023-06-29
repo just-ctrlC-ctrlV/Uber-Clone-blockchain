@@ -8,7 +8,7 @@ import uber_go from "../assets/uber_go.png";
 import uber_moto from "../assets/uber_moto.webp";
 import uber_premier from "../assets/uber_premier.webp";
 import uber_auto from "../assets/uber_auto.webp";
-import eth from "../assets/eth-logo.png";
+import eth from "../assets/ether.svg";
 
 const rides = [
   {
@@ -60,7 +60,7 @@ const Rides = () => {
   }, [rideon]);
   return (
     <div className={style.wrapper}>
-      <h4 className="text-xs text-black">Choose your ride </h4>
+      <h4 className="text-xs text-black sm:flex hidden">Choose your ride </h4>
       {rides.map((ride, index) => (
         <div
           className={

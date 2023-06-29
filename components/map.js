@@ -1,15 +1,18 @@
-import Map, { Marker, NavigationControl } from "react-map-gl";
-import { UberContext } from "@/context/UberContext";
-import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useState, useContext } from "react";
+import Map, { Marker, NavigationControl } from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import Image from "next/image";
+import { UberContext } from "@/context/UberContext";
+import mapmarker from "../assets/marker.svg";
 
 const Maap = () => {
   const [markers, setmarkers] = useState([]);
   const [viewState, setViewState] = useState(false);
 
   const useUber = useContext(UberContext);
+
   useEffect(() => {
-    if (useUber?.picklatlng[0] && useUber?.droplatlng[0]) {
+    if (useUber?.picklatlng[0] != 0 && useUber?.droplatlng[0] != 0) {
       setmarkers([]);
       setmarkers([
         {
@@ -23,9 +26,9 @@ const Maap = () => {
           longitude: useUber?.droplatlng[0],
         },
       ]);
-      setViewState(true);
     }
-  }, [useUber?.picklatlng, useUber?.droplatlng]);
+    setViewState(true);
+  }, [useUber?.picklatlng, useUber?.droplatlng, useUber?.currentUser]);
 
   return (
     <Map
@@ -38,26 +41,34 @@ const Maap = () => {
       maxZoom={17}
       minZoom={1.2}
       initialViewState={{
-        latitude: 0,
-        longitude: 0,
-        zoom: 5,
+        latitude: 12.9716,
+        longitude: 77.5946,
+        zoom: 9,
       }}
       viewState={
         viewState && {
-          latitude: (markers[0]?.latitude + markers[1]?.latitude) / 2,
-          longitude: (markers[0]?.longitude + markers[1]?.longitude) / 2,
+          latitude: markers[0]
+            ? (markers[0]?.latitude + markers[1]?.latitude) / 2
+            : useUber?.picklatlng[1],
+          longitude: markers[0]
+            ? (markers[0]?.longitude + markers[1]?.longitude) / 2
+            : useUber?.picklatlng[0],
           zoom: 8,
           padding: 400,
         }
       }
       onMoveStart={() => setViewState(false)}
-      mapStyle="mapbox://styles/drakosi/ckvcwq3rwdw4314o3i2ho8tph">
+      mapStyle={process.env.NEXT_PUBLIC_MAP_STYLE}>
       {markers?.map((marker) => {
         return (
           <Marker
             key={marker?.id}
             latitude={marker?.latitude}
-            longitude={marker?.longitude}></Marker>
+            longitude={marker?.longitude}>
+            <div className="">
+              <Image src={mapmarker} alt="marker" className="w-12 h-12" />
+            </div>
+          </Marker>
         );
       })}
       <NavigationControl />

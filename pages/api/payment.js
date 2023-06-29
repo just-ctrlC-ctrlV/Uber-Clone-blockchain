@@ -1,7 +1,7 @@
-import { ethers } from "ethers";
+import addUserRide from "./AddUserRide";
 
 export const chargeUser = async (req) => {
-  const { amount, currentUserAddress, metamask } = req;
+  const { amount, currentUserAddress, metamask, start, end, rideType } = req;
 
   try {
     await metamask.request({
@@ -15,6 +15,11 @@ export const chargeUser = async (req) => {
         },
       ],
     });
+    await addUserRide({
+      address: currentUserAddress,
+      ride: { start, end, rideType, amount, date: Date.now() },
+    });
+    window.location.reload();
     res.status(200).json({ message: "success" });
   } catch (error) {
     console.log(error.message);

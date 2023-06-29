@@ -1,12 +1,14 @@
 import { useContext } from "react";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { UberContext } from "../context/UberContext";
 import Rides from "./rides";
-import { chargeUser } from "./api/payment.js";
+import { chargeUser } from "../pages/api/payment.js";
+import ride from "../assets/ride.svg";
 
 const style = {
   wrapper:
-    "w-80 h-104 flex flex-col gap-2 top-32 left-10  bg-white rounded-md absolute items-center py-4",
+    "sm:w-80 sm:h-104 w-full min-h-[400px] flex flex-col gap-2 top-32 sm:left-10  bg-white sm:rounded-md sm:absolute items-center sm:px-0 px-4 py-4",
 };
 
 function LocationSelector() {
@@ -39,7 +41,7 @@ function LocationSelector() {
           : "  Where you wana go ?"}
       </h1>
       <input
-        className="w-72 h-8 border-2 bg-slate-300 border-gray-300 text-black rounded-md px-4"
+        className="sm:w-72 h-8 w-full  border-2 bg-slate-300 border-gray-300 text-black rounded-md px-4"
         type="text"
         placeholder="Enter pickup loction "
         onFocus={() => {
@@ -49,7 +51,7 @@ function LocationSelector() {
         onChange={(e) => setPickUpPoint(e.target.value)}
       />
       <input
-        className="w-72 h-8 border-2 bg-slate-300 border-gray-300  text-black rounded-md px-4"
+        className="sm:w-72 h-8 w-full  border-2 bg-slate-300 border-gray-300  text-black rounded-md px-4"
         type="text"
         placeholder="Where to ?"
         onFocus={() => {
@@ -58,9 +60,16 @@ function LocationSelector() {
         onBlur={() => onfousShift()}
         onChange={(e) => setDropPoint(e.target.value)}
       />
-      <div className=" w-full h-3/5 flex flex-col items-center border-y-2 border-gray-200 ">
-        <Rides />
-      </div>
+      {pickUpPoint && dropPoint ? (
+        <div className=" w-full h-3/5 flex flex-col items-center border-y-2 border-gray-200 ">
+          <Rides />
+        </div>
+      ) : (
+        <div className=" w-full h-3/5 flex text-slate-600 flex-col items-center border-y-2 border-gray-200 ">
+          <Image src={ride} alt="" className="w-40" />
+          Set your location for ride options
+        </div>
+      )}
 
       <button
         className={
@@ -74,9 +83,12 @@ function LocationSelector() {
         }
         onClick={() => {
           chargeUser({
-            amount: useUber?.tripCost,
             currentUserAddress: useUber?.currentUser,
             metamask: useUber?.metamask,
+            start: pickUpPoint,
+            end: dropPoint,
+            rideType: useUber?.selectedRide?.name,
+            amount: useUber?.tripCost,
           });
         }}
         disabled={

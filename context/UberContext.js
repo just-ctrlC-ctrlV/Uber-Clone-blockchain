@@ -1,13 +1,14 @@
 import { createContext } from "react";
 import { useState, useEffect } from "react";
 import { triptime } from "../pages/api/getDuration";
+import createUser from "../pages/api/CreateUser";
 
 export const UberContext = createContext();
 
 export function UberProvider({ children }) {
-  const [picklatlng, setpicklatlng] = useState([]);
-  const [droplatlng, setdroplatlng] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [picklatlng, setpicklatlng] = useState([77.5946, 12.9716]);
+  const [droplatlng, setdroplatlng] = useState([0, 0]);
   const [selectedRide, setSelectedRide] = useState({});
   const [tripDuration, setTripDuration] = useState(0);
   const [tripCost, setTripCost] = useState(0);
@@ -21,6 +22,19 @@ export function UberProvider({ children }) {
     if (metamask) {
       checkIfWalletConnected();
     }
+  }, []);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setpicklatlng([position.coords.longitude, position.coords.latitude]);
+      },
+      () => alert("Please allow location access"),
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -54,6 +68,7 @@ export function UberProvider({ children }) {
         const accounts = await metamask.request({
           method: "eth_requestAccounts",
         });
+        createUser({ address: accounts[0] });
         setCurrentUser(accounts[0]);
       } catch (error) {
         console.log(error);
@@ -87,8 +102,10 @@ export function UberProvider({ children }) {
     metamask,
     Geocoder,
     currentUser,
+    setCurrentUser,
     connectWallet,
     picklatlng,
+    setpicklatlng,
     droplatlng,
     tripDuration,
     selectedRide,
