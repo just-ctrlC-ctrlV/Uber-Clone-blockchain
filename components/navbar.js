@@ -12,7 +12,7 @@ const navStyle = {
   wrapper: "w-full bg-black h-20 flex justify-between  items-center px-6 pr-8",
   logo: "text-white text-2xl font-bold w-28 cursor-pointer",
   home: "text-white text-2xl font-bold cursor-pointer",
-  rides: "text-white text-xl font-semibold  cursor-pointer",
+  rides: "text-white sm:text-xl text-xs font-semibold  cursor-pointer",
   login: "text-white text-2xl font-bold w-10  cursor-pointer",
   address:
     "sm:flex hidden text-slate-300 text-xs font-medium text-green-200  cursor-pointer",
@@ -50,7 +50,11 @@ function Navbar() {
           <div
             className="flex items-center bg-[#161618] h-14 px-4 py-2 rounded-lg gap-2 shadow-slate-800 shadow-md cursor-pointer"
             onClick={useUber?.disconnectWallet}>
-            <Image src={ethlogo} alt="ethlogo" className=" w-7 h-7" />
+            <Image
+              src={ethlogo}
+              alt="ethlogo"
+              className=" w-7 h-7 hidden sm:flex"
+            />
             <div className="">
               <div className={navStyle.address}>{address}</div>
             </div>
