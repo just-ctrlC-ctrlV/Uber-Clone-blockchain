@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import Map, { Marker, NavigationControl } from "react-map-gl";
+import Map, { Marker, NavigationControl, Layer } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Image from "next/image";
 import { UberContext } from "@/context/UberContext";
@@ -72,6 +72,28 @@ const Maap = () => {
         );
       })}
       <NavigationControl />
+      {/* <Layer
+        id="lineLayer"
+        type="line"
+        source={{
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: [
+                [80.3319, 26.4499],
+                [80.9462, 26.8467],
+              ],
+            },
+          },
+        }}
+        paint={{
+          "line-color": "#ff0000",
+          "line-width": 4,
+        }}
+      /> */}
     </Map>
   );
 };

@@ -44,7 +44,7 @@ function Navbar() {
       </Link>
       {isLogedIn ? (
         <div className="flex justify-between gap-8 items-center px-6">
-          <Link href={`/showrides/${useUber?.currentUser}`}>
+          <Link href={`/showrides`}>
             <div className={navStyle.rides}>Your rides</div>
           </Link>
           <div className="flex items-center bg-[#161618] h-14 px-4 py-2 rounded-lg gap-2 shadow-slate-800 shadow-md cursor-pointer">
