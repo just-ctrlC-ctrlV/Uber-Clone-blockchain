@@ -98,6 +98,18 @@ export function UberProvider({ children }) {
     }
   };
 
+  const disconnectWallet = async () => {
+    await metamask.request({
+      method: "wallet_requestPermissions",
+      params: [
+        {
+          eth_accounts: {},
+        },
+      ],
+    });
+    setCurrentUser(null);
+  };
+
   const value = {
     metamask,
     Geocoder,
@@ -112,6 +124,7 @@ export function UberProvider({ children }) {
     setSelectedRide,
     tripCost,
     setTripCost,
+    disconnectWallet,
   };
 
   return <UberContext.Provider value={value}>{children}</UberContext.Provider>;

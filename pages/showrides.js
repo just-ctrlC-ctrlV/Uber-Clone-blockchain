@@ -6,28 +6,38 @@ import ether from "../assets/ether.svg";
 import getUserRides from "./api/GetUserRides";
 import { Navbar } from "@/components";
 import { UberContext } from "@/context/UberContext";
+import Illustration from "@/components/animation";
 
 function ShowRides() {
   const [rides, setRides] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const useUber = useContext(UberContext);
 
   useEffect(() => {
     console.log(useUber.currentUser);
     async function fetch() {
+      setIsLoading(true);
       const response = await getUserRides({
         address: useUber.currentUser,
       });
-      console.log(response);
       setRides(response);
+
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     }
     fetch();
   }, [useUber?.currentUser]);
 
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4 items-center">
       <Navbar />
-      {rides?.length === 0 ? (
-        <div>choose Ur ride</div>
+      {isLoading ? (
+        <div className="w-96">
+          <Illustration />
+        </div>
+      ) : rides?.length === 0 ? (
+        <div>Looks like you havent taken a trip yet.</div>
       ) : (
         rides?.map((ride, index) => (
           <div
