@@ -24,7 +24,7 @@ function ShowRides() {
 
       setTimeout(() => {
         setIsLoading(false);
-      }, 2000);
+      }, 1500);
     }
     fetch();
   }, [useUber?.currentUser]);
@@ -36,8 +36,10 @@ function ShowRides() {
         <div className="w-96">
           <Illustration />
         </div>
-      ) : rides?.length === 0 ? (
-        <div>Looks like you havent taken a trip yet.</div>
+      ) : rides?.length == 0 ? (
+        <div className="mt-32 text-2xl font-bold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-2xl dark:text-white">
+          {"Looks like you haven't taken a trip yet."}
+        </div>
       ) : (
         rides?.map((ride, index) => (
           <div

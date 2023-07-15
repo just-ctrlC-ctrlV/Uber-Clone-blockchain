@@ -1,18 +1,24 @@
-import React from "react";
-import Lottie from "react-lottie";
+import { useEffect, useRef } from "react";
+import lottie from "lottie-web";
 import animationData from "../assets/loading.json";
 
-function CoronaVirus() {
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
+const LottieAnimation = () => {
+  const containerRef = useRef(null);
 
-  return <Lottie options={defaultOptions} height={400} width={400} speed={2} />;
-}
+  useEffect(() => {
+    const anim = lottie.loadAnimation({
+      container: containerRef.current,
+      animationData: animationData,
+      loop: true,
+      autoplay: true,
+    });
+    anim.setSpeed(2);
+    return () => {
+      anim.destroy(); // Clean up animation when component unmounts
+    };
+  }, []);
 
-export default CoronaVirus;
+  return <div ref={containerRef} />;
+};
+
+export default LottieAnimation;
